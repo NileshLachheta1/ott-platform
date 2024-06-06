@@ -1,8 +1,8 @@
 // RegistrationForm.js
 import axios from "axios";
 import React, { useState } from "react";
-import styles from "./FormComponent.module.css";
-import { checkUsername3 , checkMobileNumberUp2} from "../../validation/validation.js";
+import "./FormComponent.css";
+import { checkUsername3 , checkMobileNumberUp2,checkBookStartTime5} from "../../validation/validation.js";
 // import "../../css/validation.css"
 const FormComponent = () => {
   const [fullName, setFullName] = useState("");
@@ -48,12 +48,12 @@ const FormComponent = () => {
   };
 
   return (
-    <section className={`${styles.gradientCustom} vh-100`}>
+    <section className={`gradientCustom vh-100`}>
       <div className="container py-5 h-100">
         <div className="row justify-content-center align-items-center h-100">
           <div className="col-12 col-lg-9 col-xl-7">
             <div
-              className={`card ${styles.cardRegistration} shadow-2-strong`}
+              className={`card cardRegistration shadow-2-strong`}
               style={{ borderRadius: "15px" }}
             >
               <div
@@ -66,9 +66,9 @@ const FormComponent = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-6 mb-4">
-                      <div className={`${styles.formfield} form-outline ${styles.formOutline}`} >
+                      <div className={`formfield form-outline formOutline`} >
                         <label
-                          className={`form-label ${styles.formLabel}`}
+                          className={`form-label formLabel`}
                           htmlFor="firstName"
                         >
                           Name
@@ -77,7 +77,7 @@ const FormComponent = () => {
                           type="text"
                           placeholder="Enter Name"
                           id="firstName"
-                          className={`form-control form-control-lg ${styles.formControl}`}
+                          className={`form-control form-control-lg formControl`}
                           onKeyUp={checkUsername3}
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
@@ -86,9 +86,9 @@ const FormComponent = () => {
                       </div>
                     </div>
                     <div className="col-md-6 mb-4">
-                      <div className={`form-outline ${styles.formOutline}`}>
+                      <div className={`formfield form-outline formOutline`}>
                         <label
-                          className={`form-label ${styles.formLabel}`}
+                          className={`form-label formLabel`}
                           htmlFor="phoneNumber"
                         >
                           Phone Number
@@ -97,7 +97,7 @@ const FormComponent = () => {
                           type="tel"
                           placeholder="Enter phone number"
                           id="phoneNumber"
-                          className={`form-control form-control-lg ${styles.formControl}`}
+                          className={`form-control form-control-lg formControl`}
                           onKeyUp={checkMobileNumberUp2}
                           value={number}
                           onChange={(e) => setNumber(e.target.value)}
@@ -107,31 +107,36 @@ const FormComponent = () => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6 mb-4 d-flex align-items-center">
+                    <div className="formfield col-md-6 mb-4 d-flex align-items-center">
                       <div
-                        className={`form-outline datepicker w-100 ${styles.timePicker}`}
+                        className={`form-outline datepicker w-100 timePicker`}
                       >
                         <label
                           htmlFor="starttime"
-                          className={`form-label ${styles.timePickerlabel}`}
+                          className={`form-label timePickerlabel`}
                         >
                           Start Time
                         </label>
                         <input
                           type="time"
-                          className={`form-control form-control-lg ${styles.formControl}`}
+                          className={`form-control form-control-lg formControl`}
                           id="startdate"
                           value={time}
-                          onChange={timeChange}
+                          onChange={(event)=>{
+                            setTime(event.target.value)
+                            timeChange(event)
+                            checkBookStartTime5(event);;
+                          }}
                         />
+                        <small></small>
                       </div>
                     </div>
                     <div className="col-md-6 mb-4">
-                      <label className={`form-label ${styles.selectLabel}`}>
+                      <label className={`form-label selectLabel`}>
                         Choose option
                       </label>
                       <select
-                        className={`select bg-light form-control-lg  ${styles.select}`}
+                        className={`select bg-light form-control-lg select`}
                         onChange={(e) => setPlatForm(e.target.value)}
                         value={platForm}
                       >
@@ -147,7 +152,7 @@ const FormComponent = () => {
                   `
                   <div className="mt-4 pt-2 d-flex align-items-center justify-content-center ">
                     <input
-                      className={`btn btn-primary btn-lg ${styles.submitBtn}`}
+                      className={`btn btn-primary btn-lg submitBtn`}
                       type="submit"
                       value="Submit"
                     />

@@ -14,7 +14,7 @@
 
 .formfield label {
     display: block;
-    color: black;
+    /* color: black; */
 }
 
 .formfield input, .formfield textarea, .formfield select  {

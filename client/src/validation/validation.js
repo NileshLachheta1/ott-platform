@@ -124,4 +124,57 @@ function ischeckMobileNumberSignUpValid2(mobile_no_input) {
 
 
 
-export { checkUsername3, checkMobileNumberUp2 }
+//Bookin validation 
+function checkBookStartTime5() {
+    // let bookingstartdate = document.getElementById('bookstartdate');
+    let starttime = document.getElementById('startdate');
+
+    let valid = false;
+    let bookingstartdate_input = starttime.value.trim();
+
+    if (!isRequired5(bookingstartdate_input)) {
+        showError5(starttime, "Select First Date.");
+    }
+    else {
+        let starttime_input = starttime.value.trim();
+
+        if (!isRequired5(starttime_input)) {
+            showError5(starttime, "Time cannot be blank.");
+        }
+        else if (!isValidBookStartTime5(bookingstartdate_input, starttime_input)) {
+            showError5(starttime, "invalid Time input");
+        }
+        else {
+            showSuccess5(starttime);
+            valid = true;
+        }
+        return valid;
+    }
+    return valid;
+}
+function isRequired5(value) {
+    if (value == "")
+        return false;
+    return true;
+}
+function isValidBookStartTime5(startdate, starttime) {
+
+    let enteredtime = new Date(`${startdate}T${starttime}`).getTime();
+    let currenttime = new Date().getTime();
+    if (currenttime > enteredtime)
+        return false;
+    return true;
+}
+function showSuccess5(input) {
+
+    const formField = input.parentElement;
+
+    formField.classList.remove('error');
+    formField.classList.add('success');
+
+    const error = formField.querySelector('small');
+    error.textContent = '';
+}
+
+
+export { checkUsername3, checkMobileNumberUp2, checkBookStartTime5 }
