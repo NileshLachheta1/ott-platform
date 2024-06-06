@@ -1,9 +1,51 @@
-// RegistrationForm.jsx
-
-import React from "react";
+// RegistrationForm.js
+import React, { useEffect, useState } from "react";
 import styles from "./FormComponent.module.css";
+import axios from "axios";
 
 const FormComponent = () => {
+  const [fullName, setFullName] = useState("");
+  const [number, setNumber] = useState("");
+  const [time, setTime] = useState("");
+  const [platForm, setPlatForm] = useState("");
+  const [activeuser, setActiveUser] = useState([]);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      console.log("Name : ", fullName, number, platForm, time);
+      const response = await axios.post("/api/users/register", {
+        fullName,
+        number,
+        time,
+        platForm,
+      });
+    } catch (error) {
+      console.log("Error In a handleSubmit :", error);
+    }
+  };
+
+  const timeChange = async (event) => {
+    try {
+      const time = event.target.value;
+      setTime(time);
+      console.log("Time : ", time);
+      const response = await axios.get(`/api/users/timechange?time=${time}`);
+      const users = response.data.activeuserlist;
+      const user1 = users[0] ??{};
+      console.log("user1 : ",user1);
+      console.log("users : ", users);
+      setActiveUser([user1]);
+
+      console.log("response : ", response.data);
+      console.log("response > activeuserlist  : ", response.data.activeuserlist);
+      console.log("---------------------");
+
+      console.log("activeuserlist :---  ", activeuser);
+    } catch (error) {
+      console.log("Error In a UseEffect :", Error);
+    }
+  };
   return (
     <section className={`${styles.gradientCustom} vh-100`}>
       <div className="container py-5 h-100">
@@ -20,7 +62,7 @@ const FormComponent = () => {
                 <h3 className="mb-4 pb-2 pb-md-0 mb-md-5 text-light text-center">
                   Registration Form
                 </h3>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-6 mb-4">
                       <div className={`form-outline ${styles.formOutline}`}>
@@ -35,6 +77,8 @@ const FormComponent = () => {
                           placeholder="Enter Name"
                           id="firstName"
                           className={`form-control form-control-lg ${styles.formControl}`}
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
                         />
                       </div>
                     </div>
@@ -51,11 +95,12 @@ const FormComponent = () => {
                           placeholder="Enter phone number"
                           id="phoneNumber"
                           className={`form-control form-control-lg ${styles.formControl}`}
+                          value={number}
+                          onChange={(e) => setNumber(e.target.value)}
                         />
                       </div>
                     </div>
                   </div>
-
                   <div className="row">
                     <div className="col-md-6 mb-4 d-flex align-items-center">
                       <div
@@ -71,6 +116,8 @@ const FormComponent = () => {
                           type="time"
                           className={`form-control form-control-lg ${styles.formControl}`}
                           id="startdate"
+                          value={time}
+                          onChange={timeChange}
                         />
                       </div>
                     </div>
@@ -80,20 +127,22 @@ const FormComponent = () => {
                       </label>
                       <select
                         className={`select bg-light form-control-lg  ${styles.select}`}
+                        onChange={(e) => setPlatForm(e.target.value)}
+                        value={platForm}
                       >
                         <option value="1" disabled>
                           Choose Platform
                         </option>
-                        <option value="2">Netflix</option>
-                        <option value="3">Amazon Prime</option>
-                        <option value="4">Hotstar</option>
+                        <option value="Netflix">Netflix</option>
+                        <option value="Amazon Prime">Amazon Prime</option>
+                        <option value="Hotstar">Hotstar</option>
                       </select>
                     </div>
                   </div>
-
-                  <div className="mt-lg-4 mt-2 pt-md-2 d-flex align-items-center justify-content-center ">
+                  `
+                  <div className="mt-4 pt-2 d-flex align-items-center justify-content-center ">
                     <input
-                      className={`btn btn-primary ${styles.submitBtn}`}
+                      className={`btn btn-primary btn-lg ${styles.submitBtn}`}
                       type="submit"
                       value="Submit"
                     />
