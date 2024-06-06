@@ -13,7 +13,10 @@ const FormComponent = () => {
               className={`card ${styles.cardRegistration} shadow-2-strong`}
               style={{ borderRadius: "15px" }}
             >
-              <div className="card-body p-4 p-md-5">
+              <div
+                className="card-body p-4 p-md-5"
+                style={{ marginBottom: "" }}
+              >
                 <h3 className="mb-4 pb-2 pb-md-0 mb-md-5 text-light text-center">
                   Registration Form
                 </h3>
@@ -58,7 +61,12 @@ const FormComponent = () => {
                       <div
                         className={`form-outline datepicker w-100 ${styles.timePicker}`}
                       >
-                        <label htmlFor="starttime" className={`form-label ${styles.timePickerlabel}`}>Start Time</label>
+                        <label
+                          htmlFor="starttime"
+                          className={`form-label ${styles.timePickerlabel}`}
+                        >
+                          Start Time
+                        </label>
                         <input
                           type="time"
                           className={`form-control form-control-lg ${styles.formControl}`}
@@ -83,10 +91,9 @@ const FormComponent = () => {
                     </div>
                   </div>
 
-
-                  <div className="mt-4 pt-2 d-flex align-items-center justify-content-center ">
+                  <div className="mt-lg-4 mt-2 pt-md-2 d-flex align-items-center justify-content-center ">
                     <input
-                      className={`btn btn-primary btn-lg ${styles.submitBtn}`}
+                      className={`btn btn-primary ${styles.submitBtn}`}
                       type="submit"
                       value="Submit"
                     />

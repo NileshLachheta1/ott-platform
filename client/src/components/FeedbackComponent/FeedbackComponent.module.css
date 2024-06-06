@@ -1,0 +1,43 @@
+/*================ Second Section =============== */
+
+.aboutSecSection{
+    height: auto;
+    background: #1B1415;
+    color: #ffff;
+}
+
+.aboutImg1{
+    height: 500px;
+}
+.vikas{
+    height: auto
+    ;
+    width: 100%;
+    /* background: rgba(56, 53, 53, 0.105); */
+    position: relative;
+}
+
+.nameheading {
+    /* margin-top: 15px; */
+    margin-top: 20px;
+    font-size: 28px;
+}
+.stars{
+    margin-top: 12%;
+}
+#btnColor{
+    background-color: #ff0000;
+    color: aliceblue;
+}
+#btnColor:hover{
+    background-color:#ffff;
+    color: black
+}
+
+.sideImage{
+
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
