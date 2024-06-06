@@ -18,6 +18,8 @@ const registerUser = async (req, res) => {
             contactNumber: number,
             startTime: start,
             endTime: end,
+            ottPlatform: platForm
+            endTime: end,
             ottPlatform:platForm,
 
         });
@@ -31,7 +33,7 @@ const registerUser = async (req, res) => {
 };
 
 const timeChange = async (req, res) => {
-    const {time} = req.query;
+    const { time } = req.query;
     console.log(" timeonchange Time : ", time);
     const [hours, minutes] = time.split(':').map(Number);
     const start = new Date();
@@ -81,4 +83,4 @@ const deactivateUsers = async (req, res, next) => {
     }
 };
 
-export { registerUser, deactivateUsers ,timeChange };
+export { registerUser, deactivateUsers, timeChange };

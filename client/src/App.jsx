@@ -4,6 +4,7 @@ import NavbarComponent from './components/Navbar/NavbarComponent.jsx'
 import HeaderComponent from './components/HeaderComponent/HeaderComponent.jsx'
 import LogoComponent from './components/LogoComponent/LogoComponent.jsx'
 import FooterComponent from './components/FooterComponent/FooterComponent.jsx'
+import FeedbackComponent from './components/FeedbackComponent/FeedbackComponent.jsx'
 function App() {
 
   return (
@@ -12,6 +13,7 @@ function App() {
       <HeaderComponent/>
       <LogoComponent/>
       <FormComponent/>
+      <FeedbackComponent/>
       <FooterComponent/>
     </>
   )
