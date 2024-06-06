@@ -1,20 +1,25 @@
+import express from 'express'
+import Mongoose from 'mongoose';
+
+import userRoutes from './router/user.routes.js';
 import dotenv from "dotenv"
-import connectDB from "./config/db.config.js";
-import { app } from './app.js'
+import cron from 'node-cron';
+import { deactivateUsers } from './controllers/user.controller.js';
+import { connectDB } from './db/index.js';
+
+const app = express();
+app.use(express.json());
 
 dotenv.config({
-    path: "./.env"
+    path: './.env'
 })
-const PORT = process.env.PORT || 8000;
+connectDB().then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
+app.use('/api/users', userRoutes);
 
+// Schedule the job to run every minute
+cron.schedule('* * * * *', deactivateUsers);
 
-connectDB()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`⚙️ Server is running at port : ${PORT}`);
-        })
-    })
-    .catch((err) => {
-        console.log("MONGO db connection failed !!! ", err);
-    })
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

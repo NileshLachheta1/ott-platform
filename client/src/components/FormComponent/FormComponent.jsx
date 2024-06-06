@@ -1,9 +1,40 @@
-// RegistrationForm.jsx
-
-import React from "react";
+// RegistrationForm.js
+import React, { useEffect, useState } from "react";
 import styles from "./FormComponent.module.css";
 
+import axios from "axios";
+
 const FormComponent = () => {
+  const [fullName, setFullName] = useState("");
+  const [number, setNumber] = useState("");
+  const [time, setTime] = useState("");
+  const [platForm, setPlatForm] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Name : ", fullName, number, platForm, time)
+    axios.post("/api/users/register", { fullName, number, time, platForm })
+      .then((response) => {
+        response.data;
+      })
+      .catch((Error) => {
+        console.log("Error In a handleSubmit :", Error);
+      })
+  }
+  const timeChange = (event) => {
+    const time = event.target.value;
+    // setTime(time)
+    setTime(time)
+    console.log("Time : ",time) 
+    axios.get(`/api/users/timechange?time=${time}`,
+    )
+      .then((response) => {
+        response.data;
+      })
+      .catch((Error) => {
+        console.log("Error In a UseEffect :", Error);
+      })
+  }
   return (
     <section className={`${styles.gradientCustom} vh-100`}>
       <div className="container py-5 h-100">
@@ -17,7 +48,7 @@ const FormComponent = () => {
                 <h3 className="mb-4 pb-2 pb-md-0 mb-md-5 text-light text-center">
                   Registration Form
                 </h3>
-                <form>
+                <form onSubmit={handleSubmit} >
                   <div className="row">
                     <div className="col-md-6 mb-4">
                       <div className={`form-outline ${styles.formOutline}`}>
@@ -32,6 +63,8 @@ const FormComponent = () => {
                           placeholder="Enter Name"
                           id="firstName"
                           className={`form-control form-control-lg ${styles.formControl}`}
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
                         />
                       </div>
                     </div>
@@ -48,6 +81,8 @@ const FormComponent = () => {
                           placeholder="Enter phone number"
                           id="phoneNumber"
                           className={`form-control form-control-lg ${styles.formControl}`}
+                          value={number}
+                          onChange={(e) => setNumber(e.target.value)}
                         />
                       </div>
                     </div>
@@ -63,6 +98,8 @@ const FormComponent = () => {
                           type="time"
                           className={`form-control form-control-lg ${styles.formControl}`}
                           id="startdate"
+                          value={time}
+                          onChange={timeChange}
                         />
                       </div>
                     </div>
@@ -72,24 +109,25 @@ const FormComponent = () => {
                       </label>
                       <select
                         className={`select bg-light form-control-lg  ${styles.select}`}
+                        onChange={(e) => setPlatForm(e.target.value)}
+                        value={platForm}
                       >
                         <option value="1" disabled>
                           Choose Platform
                         </option>
-                        <option value="2">Netflix</option>
-                        <option value="3">Amazon Prime</option>
-                        <option value="4">Hotstar</option>
+                        <option value="Netflix">Netflix</option>
+                        <option value="Amazon Prime">Amazon Prime</option>
+                        <option value="Hotstar">Hotstar</option>
                       </select>
                     </div>
-                  </div>
-
-
+                  </div>`
                   <div className="mt-4 pt-2 d-flex align-items-center justify-content-center ">
-                    <input
+                    {/* <input
                       className={`btn btn-primary btn-lg ${styles.submitBtn}`}
                       type="submit"
                       value="Submit"
-                    />
+                    /> */}
+                    <button className={`btn btn-primary btn-lg ${styles.submitBtn}`} type="submit">Submit</button>
                   </div>
                 </form>
               </div>

@@ -7,7 +7,7 @@ export default defineConfig({
   base: "/ott-platform/",
   server: {
     proxy: {
-      "/api": "http://localhost:300"
+      "/api": "http://localhost:5000"
     }
   }
 })
