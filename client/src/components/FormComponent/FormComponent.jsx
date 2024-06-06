@@ -9,7 +9,6 @@ const FormComponent = () => {
   const [number, setNumber] = useState("");
   const [time, setTime] = useState("");
   const [platForm, setPlatForm] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Name : ", fullName, number, platForm, time)
@@ -25,11 +24,11 @@ const FormComponent = () => {
     const time = event.target.value;
     // setTime(time)
     setTime(time)
-    console.log("Time : ",time) 
+    console.log("Time : ", time)
     axios.get(`/api/users/timechange?time=${time}`,
     )
       .then((response) => {
-        response.data;
+        const result = response.data;
       })
       .catch((Error) => {
         console.log("Error In a UseEffect :", Error);
