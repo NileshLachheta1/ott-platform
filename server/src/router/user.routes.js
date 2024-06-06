@@ -8,10 +8,10 @@
 
 
 import express from 'express'
-import { registerUser, deactivateUsers,timeChange } from '../controllers/user.controller.js';
+import { registerUser, deactivateUsers, timeChange } from '../controllers/user.controller.js';
 const router = express.Router();
 router.post('/register', registerUser);
-router.get("/timechange",timeChange)
+router.get("/timechange", timeChange)
 router.use(deactivateUsers);
 
-export  default router;
+export default router;

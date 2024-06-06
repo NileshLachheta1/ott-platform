@@ -19,9 +19,6 @@ const registerUser = async (req, res) => {
             startTime: start,
             endTime: end,
             ottPlatform: platForm
-            endTime: end,
-            ottPlatform:platForm,
-
         });
         await newUser.save();
         console.log("newUser : ", newUser)
@@ -62,7 +59,7 @@ const timeChange = async (req, res) => {
             }
         ]);
         console.log("AcriveUser : ", activeUsersByPlatform)
-            return res.status(200).json({activeUsersByPlatform});
+        return res.status(200).json({ activeUsersByPlatform });
 
     } catch (error) {
         console.log("Error : ", error)

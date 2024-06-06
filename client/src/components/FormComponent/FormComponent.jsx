@@ -1,15 +1,15 @@
 // RegistrationForm.js
-import React, { useEffect, useState } from "react";
-import styles from "./FormComponent.module.css";
 import axios from "axios";
-
+import React, { useState } from "react";
+import styles from "./FormComponent.module.css";
+import { checkUsername3 , checkMobileNumberUp2} from "../../validation/validation.js";
+// import "../../css/validation.css"
 const FormComponent = () => {
   const [fullName, setFullName] = useState("");
   const [number, setNumber] = useState("");
   const [time, setTime] = useState("");
   const [platForm, setPlatForm] = useState("");
   const [activeuser, setActiveUser] = useState([]);
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -32,8 +32,8 @@ const FormComponent = () => {
       console.log("Time : ", time);
       const response = await axios.get(`/api/users/timechange?time=${time}`);
       const users = response.data.activeuserlist;
-      const user1 = users[0] ??{};
-      console.log("user1 : ",user1);
+      const user1 = users[0] ?? {};
+      console.log("user1 : ", user1);
       console.log("users : ", users);
       setActiveUser([user1]);
 
@@ -46,31 +46,7 @@ const FormComponent = () => {
       console.log("Error In a UseEffect :", Error);
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Name : ", fullName, number, platForm, time)
-    axios.post("/api/users/register", { fullName, number, time, platForm })
-      .then((response) => {
-        response.data;
-      })
-      .catch((Error) => {
-        console.log("Error In a handleSubmit :", Error);
-      })
-  }
-  const timeChange = (event) => {
-    const time = event.target.value;
-    // setTime(time)
-    setTime(time)
-    console.log("Time : ", time)
-    axios.get(`/api/users/timechange?time=${time}`,
-    )
-      .then((response) => {
-        const result = response.data;
-      })
-      .catch((Error) => {
-        console.log("Error In a UseEffect :", Error);
-      })
-  }
+
   return (
     <section className={`${styles.gradientCustom} vh-100`}>
       <div className="container py-5 h-100">
@@ -90,7 +66,7 @@ const FormComponent = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-6 mb-4">
-                      <div className={`form-outline ${styles.formOutline}`}>
+                      <div className={`${styles.formfield} form-outline ${styles.formOutline}`} >
                         <label
                           className={`form-label ${styles.formLabel}`}
                           htmlFor="firstName"
@@ -102,9 +78,11 @@ const FormComponent = () => {
                           placeholder="Enter Name"
                           id="firstName"
                           className={`form-control form-control-lg ${styles.formControl}`}
+                          onKeyUp={checkUsername3}
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                         />
+                        <small className="text-danger"></small>
                       </div>
                     </div>
                     <div className="col-md-6 mb-4">
@@ -120,9 +98,11 @@ const FormComponent = () => {
                           placeholder="Enter phone number"
                           id="phoneNumber"
                           className={`form-control form-control-lg ${styles.formControl}`}
+                          onKeyUp={checkMobileNumberUp2}
                           value={number}
                           onChange={(e) => setNumber(e.target.value)}
                         />
+                        <small className="ms-3 text-danger"></small>
                       </div>
                     </div>
                   </div>
