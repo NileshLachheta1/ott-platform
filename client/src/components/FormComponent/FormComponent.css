@@ -1,5 +1,46 @@
 /* RegistrationForm.module.css */
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+:root {
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.formfield label {
+    display: block;
+    /* color: black; */
+}
+
+.formfield input, .formfield textarea, .formfield select  {
+    border: solid 2px rgb(105, 100, 100);
+    display: block;
+}
+
+.formfield input:focus, .formfield textarea:focus, .formfield select:focus  {
+    outline: none;
+}
+
+.formfield.error input, .formfield.error textarea, .formfield.error select {
+    border-color: var(--error-color);
+}
+
+.formfield.success input, .formfield.success textarea, .formfield.success select {
+    border-color: var(--success-color);
+}
+
+
+.formfield small {
+    color: var(--error-color);
+}
+
+
+
 .gradientCustom {
     background: url(../../assets/formbackground.avif);
   }
