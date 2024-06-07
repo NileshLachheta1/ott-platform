@@ -2,37 +2,51 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./FormComponent.css";
+import Swal from "sweetalert2";
 import {
   checkUsername,
   checkContactNumber,
   checkStartTime,
   checkPlatform,
   checkFormData,
-} from "../../validation/validation.js";
-// import "../../css/validation.css"
+}
+  from "../../validation/validation.js";
 const FormComponent = () => {
-  const [fullName, setFullName] = useState("");
-  const [number, setNumber] = useState("");
-  const [time, setTime] = useState("");
-  const [platForm, setPlatForm] = useState("");
+  const [data, setData] = useState({});
   const [activeuser, setActiveUser] = useState([]);
-
-  const handleSubmit = async (e) => {
+  const getData = (event) => {
+    const { name, value } = event.target;
+    console.log(" Name : ", name, "Value  :", value)
+    setData({
+      ...data,
+      [name]: value
+    });
+  };
+  const handleSubmit = async (event) => {
     try {
-      e.preventDefault();
+      event.preventDefault();
       const res = checkFormData();
       if (!res) {
         return false;
       }
-      console.log("Name : ", fullName, number, platForm, time);
-      const response = await axios.post("/api/users/register", {
-        fullName,
-        number,
-        time,
-        platForm,
-      });
-      console.log("Response Here : ",response.data);
+      const { fullName, number, time, platForm } = data;
+      console.log("DaTA : ", fullName, number, time, platForm);
+      const response = await axios.post("/api/users/register", { fullName, number, time, platForm });
+      console.log("Response Here : ", response.data);
+      event.target.reset();
+      setData({})
+      const swal1 = await Swal.fire({
+        title: "Congratulations",
+        text: response.data.message,
+        icon: "success"
+      });;
+      window.open('https://rzp.io/l/ZhVuJ42iZW', '_blank');
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
       console.log("Error In a handleSubmit :", error);
     }
   };
@@ -40,11 +54,10 @@ const FormComponent = () => {
   const timeChange = async (event) => {
     try {
       const time = event.target.value;
-      setTime(time);
       const response = await axios.get(`/api/users/timechange?time=${time}`);
       let users = response.data.activeUserList;
       setActiveUser(users);
-      console.log("activeuser : ",activeuser)
+      console.log("activeuser : ", activeuser)
     } catch (error) {
       console.log("Error In a UseEffect :", Error);
     }
@@ -74,16 +87,16 @@ const FormComponent = () => {
                           className={`form-label formLabel`}
                           htmlFor="firstName"
                         >
-                          Name
+                          Name *
                         </label>
                         <input
                           type="text"
                           placeholder="Enter Name"
                           id="firstName"
+                          name="fullName"
                           className={`form-control form-control-lg formControl`}
                           onKeyUp={checkUsername}
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
+                          onChange={getData}
                         />
                         <small className="text-danger"></small>
                       </div>
@@ -94,16 +107,17 @@ const FormComponent = () => {
                           className={`form-label formLabel`}
                           htmlFor="phoneNumber"
                         >
-                          Phone Number
+                          Phone Number *
                         </label>
                         <input
                           type="tel"
                           placeholder="Enter phone number"
                           id="phoneNumber"
+                          name="number"
                           className={`form-control form-control-lg formControl`}
                           onKeyUp={checkContactNumber}
-                          value={number}
-                          onChange={(e) => setNumber(e.target.value)}
+
+                          onChange={getData}
                         />
                         <small className="ms-3 text-danger"></small>
                       </div>
@@ -118,15 +132,15 @@ const FormComponent = () => {
                           htmlFor="starttime"
                           className={`form-label timePickerlabel`}
                         >
-                          Start Time
+                          Start Time *
                         </label>
                         <input
                           type="time"
                           className={`form-control form-control-lg formControl`}
                           id="startdate"
-                          value={time}
+                          name="time"
                           onChange={(event) => {
-                            setTime(event.target.value);
+                            getData(event);
                             timeChange(event);
                             checkStartTime(event);
                           }}
@@ -136,16 +150,16 @@ const FormComponent = () => {
                     </div>
                     <div className=" formfield col-md-6 mb-4 ">
                       <label className={`form-label selectLabel`}>
-                        Choose option
+                        Choose option *
                       </label>
                       <select
                         className={`select bg-light form-control-lg select`}
-                        onChange={(e) => {
-                          setPlatForm(e.target.value);
+                        onChange={(event) => {
+                          getData(event);
                           checkPlatform();
                         }}
-                        value={platForm}
                         id="platform"
+                        name="platForm"
                       >
                         <option value="">Select Platform</option>
                         <option value="Netflix">Netflix</option>

@@ -3,7 +3,7 @@ import User from '../models/user.model.js';
 
 const registerUser = async (req, res) => {
     const { fullName, number, time, platForm } = req.body;
-    console.log("Time", fullName, number, time, platForm);
+    console.log("Time : ", fullName, number, time, platForm);
     const [hours, minutes] = time.split(':').map(Number);
     const start = new Date();
     start.setHours(hours, minutes, 0, 0);
@@ -22,10 +22,10 @@ const registerUser = async (req, res) => {
         });
         await newUser.save();
         console.log("newUser : ", newUser)
-        res.status(201).json(newUser);
+        res.status(200).json({message:"Registration succesfully completed",newUser});
     } catch (error) {
         console.log("Error : ", error)
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({message:"Registration incompleted please try again" });
     }
 };
 

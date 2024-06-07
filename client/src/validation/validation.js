@@ -8,7 +8,7 @@ function checkUsername() {
 
     const input_user_name = user_name.value.trim();
     if (!isRequired(input_user_name)) {
-        showError(user_name, 'Username cannot be blank.');
+        showError(user_name, 'please enter Full Name');
     } else if (!isBetween(input_user_name.length, min, max)) {
         showError(user_name, `Username must be between ${min} and ${max} characters.`)
     } else {
@@ -36,7 +36,7 @@ function isBetween(length, min, max) {
 
 function validateName(value) {
     console.log("Value :", value)
-    const re = /^[a-zA-Z]+$/;
+    const re = /^[a-z A-Z]+$/;
     return re.test(value);
 }
 
@@ -48,10 +48,10 @@ function checkContactNumber() {
     const mobile_no_input = mobile_no.value.trim();
     console.log(mobile_no_input);
     if (!isRequired(mobile_no_input)) {
-        showError(mobile_no, 'Contact cannot be blank.');
+        showError(mobile_no, 'enter contact number');
 
     } else if (!isValidContactNumber(mobile_no_input)) {
-        showError(mobile_no, 'Contact is not valid.')
+        showError(mobile_no, 'enter valid contact number')
     } else {
         showSuccess(mobile_no);
         valid = true;
@@ -91,10 +91,10 @@ function checkStartTime() {
 
     let starttime_input = starttime.value.trim();
     if (!isRequired(starttime_input)) {
-        showError(starttime, "Time cannot be blank.");
+        showError(starttime, "please select time");
     }
     else if (!isValidStartTime(starttime_input)) {
-        showError(starttime, "invalid Time input");
+        showError(starttime, "Please enter a time at least 20 minutes later");
     }
     else {
         showSuccess(starttime);
@@ -109,9 +109,10 @@ function isValidStartTime(starttime) {
     const currentDateString = now.toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
     const enteredTimeString = `${currentDateString}T${starttime}`;
     const enteredTime = new Date(enteredTimeString).getTime();
-    const currentTime = now.getTime();
+    let currentTime = now.getTime();
+    currentTime = currentTime + (20 * 60 * 1000); 
     console.log("Input time :", enteredTime);
-    console.log("CUrrwnr : ", currentTime)
+    console.log("currentTime : ", currentTime)
     if (currentTime > enteredTime)
         return false;
     return true;
