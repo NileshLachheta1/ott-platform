@@ -59,7 +59,7 @@ const timeChange = async (req, res) => {
             }
         ]);
         console.log("AcriveUser : ", activeUsersByPlatform)
-        return res.status(200).json({ activeUsersByPlatform });
+        return res.status(200).json({ activeuserlist: activeUsersByPlatform });
 
     } catch (error) {
         console.log("Error : ", error)

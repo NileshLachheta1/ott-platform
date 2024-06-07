@@ -10,6 +10,7 @@ const FormComponent = () => {
   const [time, setTime] = useState("");
   const [platForm, setPlatForm] = useState("");
   const [activeuser, setActiveUser] = useState([]);
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -24,6 +25,7 @@ const FormComponent = () => {
         time,
         platForm,
       });
+      console.log("Response Here : ",response.data);
     } catch (error) {
       console.log("Error In a handleSubmit :", error);
     }
@@ -33,19 +35,14 @@ const FormComponent = () => {
     try {
       const time = event.target.value;
       setTime(time);
-      console.log("Time : ", time);
       const response = await axios.get(`/api/users/timechange?time=${time}`);
-      const users = response.data.activeuserlist;
-      const user1 = users[0] ?? {};
-      console.log("user1 : ", user1);
-      console.log("users : ", users);
-      setActiveUser([user1]);
-
+      var users = await response.data.activeuserlist; 
+      setActiveUser(users);
       console.log("response : ", response.data);
       console.log("response > activeuserlist  : ", response.data.activeuserlist);
       console.log("---------------------");
 
-      console.log("activeuserlist :---  ", activeuser);
+      console.log("activeuserlist NEW :---  ", activeuser);
     } catch (error) {
       console.log("Error In a UseEffect :", Error);
     }
