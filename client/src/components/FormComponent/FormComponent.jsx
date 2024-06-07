@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./FormComponent.css";
-import { checkUsername3 , checkMobileNumberUp2,checkBookStartTime5} from "../../validation/validation.js";
+import { checkUsername, checkContactNumber, checkStartTime, checkPlatform, checkFormData } from "../../validation/validation.js";
 // import "../../css/validation.css"
 const FormComponent = () => {
   const [fullName, setFullName] = useState("");
@@ -13,6 +13,10 @@ const FormComponent = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      const res = checkFormData();
+      if(!res){
+        return false;
+      }
       console.log("Name : ", fullName, number, platForm, time);
       const response = await axios.post("/api/users/register", {
         fullName,
@@ -64,6 +68,7 @@ const FormComponent = () => {
                   Registration Form
                 </h3>
                 <form onSubmit={handleSubmit}>
+
                   <div className="row">
                     <div className="col-md-6 mb-4">
                       <div className={`formfield form-outline formOutline`} >
@@ -78,7 +83,7 @@ const FormComponent = () => {
                           placeholder="Enter Name"
                           id="firstName"
                           className={`form-control form-control-lg formControl`}
-                          onKeyUp={checkUsername3}
+                          onKeyUp={checkUsername}
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                         />
@@ -98,7 +103,7 @@ const FormComponent = () => {
                           placeholder="Enter phone number"
                           id="phoneNumber"
                           className={`form-control form-control-lg formControl`}
-                          onKeyUp={checkMobileNumberUp2}
+                          onKeyUp={checkContactNumber}
                           value={number}
                           onChange={(e) => setNumber(e.target.value)}
                         />
@@ -107,9 +112,9 @@ const FormComponent = () => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="formfield col-md-6 mb-4 d-flex align-items-center">
+                    <div className=" col-md-6 mb-4 d-flex align-items-center">
                       <div
-                        className={`form-outline datepicker w-100 timePicker`}
+                        className={`formfield form-outline datepicker w-100 timePicker`}
                       >
                         <label
                           htmlFor="starttime"
@@ -125,28 +130,28 @@ const FormComponent = () => {
                           onChange={(event)=>{
                             setTime(event.target.value)
                             timeChange(event)
-                            checkBookStartTime5(event);;
+                            checkStartTime(event);;
                           }}
                         />
                         <small></small>
                       </div>
                     </div>
-                    <div className="col-md-6 mb-4">
+                    <div className=" formfield col-md-6 mb-4 ">
                       <label className={`form-label selectLabel`}>
                         Choose option
                       </label>
                       <select
                         className={`select bg-light form-control-lg select`}
-                        onChange={(e) => setPlatForm(e.target.value)}
+                        onChange={(e) =>{setPlatForm(e.target.value);checkPlatform();}}
                         value={platForm}
-                      >
-                        <option value="1" disabled>
-                          Choose Platform
-                        </option>
+                        id="platform"
+                      > 
+                      <option value="">Select Platform</option>
                         <option value="Netflix">Netflix</option>
                         <option value="Amazon Prime">Amazon Prime</option>
                         <option value="Hotstar">Hotstar</option>
                       </select>
+                      <small></small>
                     </div>
                   </div>
                   `
