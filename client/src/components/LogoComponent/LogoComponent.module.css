@@ -10,7 +10,7 @@
 #logoSliderSection{
   box-shadow: 0 20px 40px rgba(166, 161, 161, 0.2);
   background-color: rgba(244, 242, 242, 0.275);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(203, 201, 201, 0.3), 0 0 50px rgba(212, 206, 206, 0.1);
   margin-bottom: 1%;
 }
 

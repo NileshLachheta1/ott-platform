@@ -11,7 +11,7 @@ export default function FeedbackComponent() {
             <div class="container-md-fluid container-lg  mt-5 mb-5">
                 <div class={`row ${styles.aboutSecSection} rounded-4 `}>
 
-                    <div class="col-lg-6 col-md-6 p-5 m-0 ">
+                    <div class="col-lg-6 col-md-6 p-4 p-sm-5 p-md-5 p-lg-5 p-xl-5 p-xxl-5 m-0 ">
                         <svg class="mt-4" width="36" height="35" viewBox="0 0 36 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -21,7 +21,7 @@ export default function FeedbackComponent() {
                         <p class="mt-2">OUR FEEDBACK</p>
                         <h1 class="fw-bold">What They’re Talking About us?</h1>
 
-                        <div id={styles.carouselExampleSlidesOnly} class="carousel slide  me-0  p-4" data-bs-ride="carousel">
+                        <div id={styles.carouselExampleSlidesOnly} class="carousel slide  me-0  p-2 p-sm-4 p-md-4 p-lg-4 p-xl-4" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div class={`carousel-item active ${styles.vikas}`}>
                                     <img src={img3} width="100px" height="100px" class="rounded-circle m-2" alt=""/>
