@@ -2,7 +2,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./FormComponent.css";
-import { checkUsername, checkContactNumber, checkStartTime, checkPlatform, checkFormData } from "../../validation/validation.js";
+import {
+  checkUsername,
+  checkContactNumber,
+  checkStartTime,
+  checkPlatform,
+  checkFormData,
+} from "../../validation/validation.js";
 // import "../../css/validation.css"
 const FormComponent = () => {
   const [fullName, setFullName] = useState("");
@@ -15,7 +21,7 @@ const FormComponent = () => {
     try {
       e.preventDefault();
       const res = checkFormData();
-      if(!res){
+      if (!res) {
         return false;
       }
       console.log("Name : ", fullName, number, platForm, time);
@@ -36,13 +42,9 @@ const FormComponent = () => {
       const time = event.target.value;
       setTime(time);
       const response = await axios.get(`/api/users/timechange?time=${time}`);
-      var users = await response.data.activeuserlist; 
+      let users = response.data.activeUserList;
       setActiveUser(users);
-      console.log("response : ", response.data);
-      console.log("response > activeuserlist  : ", response.data.activeuserlist);
-      console.log("---------------------");
-
-      console.log("activeuserlist NEW :---  ", activeuser);
+      console.log("activeuser : ",activeuser)
     } catch (error) {
       console.log("Error In a UseEffect :", Error);
     }
@@ -65,10 +67,9 @@ const FormComponent = () => {
                   Registration Form
                 </h3>
                 <form onSubmit={handleSubmit}>
-
                   <div className="row">
                     <div className="col-md-6 mb-4">
-                      <div className={`formfield form-outline formOutline`} >
+                      <div className={`formfield form-outline formOutline`}>
                         <label
                           className={`form-label formLabel`}
                           htmlFor="firstName"
@@ -124,10 +125,10 @@ const FormComponent = () => {
                           className={`form-control form-control-lg formControl`}
                           id="startdate"
                           value={time}
-                          onChange={(event)=>{
-                            setTime(event.target.value)
-                            timeChange(event)
-                            checkStartTime(event);;
+                          onChange={(event) => {
+                            setTime(event.target.value);
+                            timeChange(event);
+                            checkStartTime(event);
                           }}
                         />
                         <small></small>
@@ -139,11 +140,14 @@ const FormComponent = () => {
                       </label>
                       <select
                         className={`select bg-light form-control-lg select`}
-                        onChange={(e) =>{setPlatForm(e.target.value);checkPlatform();}}
+                        onChange={(e) => {
+                          setPlatForm(e.target.value);
+                          checkPlatform();
+                        }}
                         value={platForm}
                         id="platform"
-                      > 
-                      <option value="">Select Platform</option>
+                      >
+                        <option value="">Select Platform</option>
                         <option value="Netflix">Netflix</option>
                         <option value="Amazon Prime">Amazon Prime</option>
                         <option value="Hotstar">Hotstar</option>
