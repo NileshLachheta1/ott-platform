@@ -3,15 +3,11 @@ import User from '../models/user.model.js';
 
 const registerUser = async (req, res) => {
     const { fullName, number, time, platForm } = req.body;
-    console.log("Time", fullName, number, time, platForm);
     const [hours, minutes] = time.split(':').map(Number);
     const start = new Date();
     start.setHours(hours, minutes, 0, 0);
-    console.log("Current Time :", start);
-    let end = new Date(start.getTime() + 10 * 60 * 1000);
+    let end = new Date(start.getTime() + 4 * 60 * 60 * 1000);
     end = new Date(end.getTime() - 2000);
-    console.log("Start date", start)
-    console.log("Start date", end)
     try {
         const newUser = new User({
             name: fullName,
@@ -21,27 +17,20 @@ const registerUser = async (req, res) => {
             ottPlatform: platForm
         });
         await newUser.save();
-        console.log("newUser : ", newUser)
-        res.status(201).json(newUser);
+        res.status(200).json({message:"Registration succesfully completed",newUser});
     } catch (error) {
-        console.log("Error : ", error)
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({message:"Registration incompleted please try again" });
     }
 };
 
 const timeChange = async (req, res) => {
     const { time } = req.query;
-    console.log(" timeonchange Time : ", time);
     const [hours, minutes] = time.split(':').map(Number);
     const start = new Date();
     start.setHours(hours, minutes, 0, 0);
-    console.log("Current Time :", start);
-    let end = new Date(start.getTime() + 5 * 60 * 1000);
+    let end = new Date(start.getTime() + 4 * 60 * 60 * 1000);
     end = new Date(end.getTime() - 2000);
-    console.log("Start date", start)
-    console.log("Start date", end)
     try {
-        console.log("inside try")
         const activeUsersByPlatform = await User.aggregate([
             { $match: { startTime: { $lte: start }, active: true } },
             {
@@ -58,16 +47,13 @@ const timeChange = async (req, res) => {
                 }
             }
         ]);
-        console.log("AcriveUser : ", activeUsersByPlatform)
         return res.status(200).json({ activeUserList : activeUsersByPlatform });
 
     } catch (error) {
-        console.log("Error : ", error)
         res.status(500).json({ message: 'Server error', error });
     }
 }
 const deactivateUsers = async (req, res, next) => {
-    console.log("Call the Deactive User Page : ")
     const now = new Date();
     try {
         await User.updateMany(

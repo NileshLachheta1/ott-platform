@@ -1,7 +1,7 @@
-// RegistrationForm.js
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./FormComponent.css";
+import Swal from "sweetalert2";
 import {
   checkUsername,
   checkContactNumber,
@@ -11,51 +11,61 @@ import {
 } from "../../validation/validation.js";
 
 const FormComponent = () => {
-  const [fullName, setFullName] = useState("");
-  const [number, setNumber] = useState("");
-  const [time, setTime] = useState("");
-  const [platForm, setPlatForm] = useState("");
+  const [data, setData] = useState({});
   const [activeuser, setActiveUser] = useState([]);
   const [netflixActiveStatus, setNetflixActiveStatus] = useState(false);
   const [amazonPrimeActiveStatus, setAmazonPrimeActiveStatus] = useState(false);
   const [hotstarActiveStatus, setHotstarActiveStatus] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const getData = (event) => {
+    const { name, value } = event.target;
+    setData({
+      ...data,
+      [name]: value
+    });
+    console.log("name : ", event.target.name);
+  };
+
+  const handleSubmit = async (event) => {
     try {
-      e.preventDefault();
+      event.preventDefault();
       const res = checkFormData();
       if (!res) {
         return false;
       }
-      console.log("Name : ", fullName, number, platForm, time);
-      const response = await axios.post("/api/users/register", {
-        fullName,
-        number,
-        time,
-        platForm,
-      });
+      const { fullName, number, time, platForm } = data;
+      const response = await axios.post("/api/users/register", data);
+      await Swal.fire({
+        title: "Congratulations",
+        text: response.data.message,
+        icon: "success"
+        });
+        setData({});
+        event.target.reset();
+        window.open('https://rzp.io/l/ZhVuJ42iZW', '_blank');
+        window.location.reload();
     } catch (error) {
-      console.log("Error In a handleSubmit :", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
+      // console.log("Error In handleSubmit :", error);
     }
   };
 
   const timeChange = async (event) => {
     try {
       const time = event.target.value;
-      setTime(time);
       const response = await axios.get(`/api/users/timechange?time=${time}`);
       const users = response.data.activeUserList;
       setActiveUser(users);
-      console.log(activeuser);
     } catch (error) {
-      console.log("Error In timeChange:", error);
     }
   };
 
   useEffect(() => {
-    console.log("useEffect user : ",activeuser)
     activeuser.map((item, index) => {
-      // Determine if the Netflix option should be disabled
       if (item.ottPlatform === "Netflix" && item.count >= 2) {
         setNetflixActiveStatus(!netflixActiveStatus);
       }
@@ -65,7 +75,6 @@ const FormComponent = () => {
       if (item.ottPlatform === "Hotstar" && item.count >= 2) {
         setHotstarActiveStatus(!hotstarActiveStatus);
       }
-
     });
   }, [activeuser]);
 
@@ -93,16 +102,16 @@ const FormComponent = () => {
                           className={`form-label formLabel`}
                           htmlFor="firstName"
                         >
-                          Name
+                          Name *
                         </label>
                         <input
                           type="text"
                           placeholder="Enter Name"
                           id="firstName"
+                          name="fullName"
                           className={`form-control form-control-lg formControl`}
-                          onKeyUp={checkUsername}
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
+
+                          onChange={(event) => {getData(event); checkUsername();}}
                         />
                         <small className="text-danger"></small>
                       </div>
@@ -113,23 +122,23 @@ const FormComponent = () => {
                           className={`form-label formLabel`}
                           htmlFor="phoneNumber"
                         >
-                          Phone Number
+                          Phone Number *
                         </label>
                         <input
-                          type="tel"
+                          type="text"
                           placeholder="Enter phone number"
                           id="phoneNumber"
+                          name="number"
                           className={`form-control form-control-lg formControl`}
-                          onKeyUp={checkContactNumber}
-                          value={number}
-                          onChange={(e) => setNumber(e.target.value)}
+                          // onKeyUp={checkContactNumber}
+                          onChange={(event) => {getData(event); checkContactNumber();}}
                         />
                         <small className="ms-3 text-danger"></small>
                       </div>
                     </div>
                   </div>
                   <div className="row">
-                    <div className=" col-md-6 mb-4 d-flex align-items-center">
+                    <div className="col-md-6 mb-4 d-flex align-items-center">
                       <div
                         className={`formfield form-outline datepicker w-100 timePicker`}
                       >
@@ -137,15 +146,15 @@ const FormComponent = () => {
                           htmlFor="starttime"
                           className={`form-label timePickerlabel`}
                         >
-                          Start Time
+                          Start Time *
                         </label>
                         <input
                           type="time"
                           className={`form-control form-control-lg formControl`}
                           id="startdate"
-                          value={time}
+                          name="time"
                           onChange={(event) => {
-                            setTime(event.target.value);
+                            getData(event);
                             timeChange(event);
                             checkStartTime(event);
                           }}
@@ -153,18 +162,18 @@ const FormComponent = () => {
                         <small></small>
                       </div>
                     </div>
-                    <div className=" formfield col-md-6 mb-4 ">
+                    <div className="formfield col-md-6 mb-4">
                       <label className={`form-label selectLabel`}>
-                        Choose option
+                        Choose option *
                       </label>
                       <select
                         className={`select bg-light form-control-lg select`}
-                        onChange={(e) => {
-                          setPlatForm(e.target.value);
+                        onChange={(event) => {
+                          getData(event);
                           checkPlatform();
                         }}
-                        value={platForm}
                         id="platform"
+                        name="platForm"
                       >
                         <option value="">Select Platform</option>
                         <option value="Netflix" disabled={netflixActiveStatus}>
@@ -180,12 +189,10 @@ const FormComponent = () => {
                           Hotstar
                         </option>
                       </select>
-
                       <small></small>
                     </div>
                   </div>
-                  `
-                  <div className="mt-4 pt-2 d-flex align-items-center justify-content-center ">
+                  <div className="mt-4 pt-2 d-flex align-items-center justify-content-center">
                     <input
                       className={`btn btn-primary btn-lg submitBtn`}
                       type="submit"

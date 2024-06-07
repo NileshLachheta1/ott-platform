@@ -6,7 +6,6 @@ export default function FeedbackComponent() {
   return (
     <>
 
-
 <section>
             <div className="container-md-fluid container-lg  mt-5 mb-5">
                 <div className={`row ${styles.aboutSecSection} rounded-4 `}>
