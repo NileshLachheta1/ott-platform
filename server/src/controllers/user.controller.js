@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
     const start = new Date();
     start.setHours(hours, minutes, 0, 0);
     console.log("Current Time :", start);
-    let end = new Date(start.getTime() + 5 * 60 * 1000);
+    let end = new Date(start.getTime() + 10 * 60 * 1000);
     end = new Date(end.getTime() - 2000);
     console.log("Start date", start)
     console.log("Start date", end)

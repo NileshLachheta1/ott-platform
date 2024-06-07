@@ -1,6 +1,6 @@
 // RegistrationForm.js
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./FormComponent.css";
 import {
   checkUsername,
@@ -9,13 +9,17 @@ import {
   checkPlatform,
   checkFormData,
 } from "../../validation/validation.js";
-// import "../../css/validation.css"
+
 const FormComponent = () => {
   const [fullName, setFullName] = useState("");
   const [number, setNumber] = useState("");
   const [time, setTime] = useState("");
   const [platForm, setPlatForm] = useState("");
   const [activeuser, setActiveUser] = useState([]);
+  const [netflixActiveStatus, setNetflixActiveStatus] = useState(false);
+  const [amazonPrimeActiveStatus, setAmazonPrimeActiveStatus] = useState(false);
+  const [hotstarActiveStatus, setHotstarActiveStatus] = useState(false);
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -39,15 +43,31 @@ const FormComponent = () => {
     try {
       const time = event.target.value;
       setTime(time);
-      console.log("Time : ", time);
       const response = await axios.get(`/api/users/timechange?time=${time}`);
-      let users = response.data.activeUserList;
+      const users = response.data.activeUserList;
       setActiveUser(users);
-      console.log("activeuser : ",activeuser)
+      console.log(activeuser);
     } catch (error) {
-      console.log("Error In a UseEffect :", Error);
+      console.log("Error In timeChange:", error);
     }
   };
+
+  useEffect(() => {
+    console.log("useEffect user : ",activeuser)
+    activeuser.map((item, index) => {
+      // Determine if the Netflix option should be disabled
+      if (item.ottPlatform === "Netflix" && item.count >= 2) {
+        setNetflixActiveStatus(!netflixActiveStatus);
+      }
+      if (item.ottPlatform === "Amazon Prime" && item.count >= 2) {
+        setAmazonPrimeActiveStatus(!amazonPrimeActiveStatus);
+      }
+      if (item.ottPlatform === "Hotstar" && item.count >= 2) {
+        setHotstarActiveStatus(!hotstarActiveStatus);
+      }
+
+    });
+  }, [activeuser]);
 
   return (
     <section className={`gradientCustom vh-100`}>
@@ -147,10 +167,20 @@ const FormComponent = () => {
                         id="platform"
                       >
                         <option value="">Select Platform</option>
-                        <option value="Netflix">Netflix</option>
-                        <option value="Amazon Prime">Amazon Prime</option>
-                        <option value="Hotstar">Hotstar</option>
+                        <option value="Netflix" disabled={netflixActiveStatus}>
+                          Netflix
+                        </option>
+                        <option
+                          value="Amazon Prime"
+                          disabled={amazonPrimeActiveStatus}
+                        >
+                          Amazon Prime
+                        </option>
+                        <option value="Hotstar" disabled={hotstarActiveStatus}>
+                          Hotstar
+                        </option>
                       </select>
+
                       <small></small>
                     </div>
                   </div>

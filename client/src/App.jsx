@@ -6,7 +6,7 @@ import LogoComponent from "./components/LogoComponent/LogoComponent.jsx";
 import FooterComponent from "./components/FooterComponent/FooterComponent.jsx";
 import FeedbackComponent from "./components/FeedbackComponent/FeedbackComponent.jsx";
 import AboutUsComponent from "./components/AboutUsComponent/AboutUsComponent.jsx";
-// import HowWeWorkComponent from "./components/HowWeWorkComponent/HowWeWorkComponent.jsx";
+import HowWeWorkComponent from "./components/HowWeWorkComponent/HowWeWorkComponent.jsx";
 function App() {
 
   return (
@@ -17,7 +17,7 @@ function App() {
       <FormComponent />
       <LogoComponent />
       <FeedbackComponent />
-      {/* <HowWeWorkComponent/> */}
+      <HowWeWorkComponent/>
       <FooterComponent />
     </>
   );

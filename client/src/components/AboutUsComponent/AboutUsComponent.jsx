@@ -5,18 +5,18 @@ export default function AboutUsComponent() {
   return (
     <>
       <div className="container-fluid ">
-        <div class="container  mt-5 mb-5 ">
-          <div class={`row ${styles.aboutSecSection} rounded-4`}>
-            <div class="col-lg-6 col-md-6 p-3 p-lg-5 m-0">
+        <div className="container  mt-5 mb-5 ">
+          <div className={`row ${styles.aboutSecSection} rounded-4`}>
+            <div className="col-lg-6 col-md-6 p-3 p-lg-5 m-0">
               <img
                 src={aboutImg}
                 className="img-fluid img-responsive w-100 rounded-5"
                 alt=""
               />
             </div>
-            <div class="col-lg-6 col-md-6 pt-5 pb-5 m-0 ">
+            <div className="col-lg-6 col-md-6 pt-5 pb-5 m-0 ">
               <svg
-                class="mt-4"
+                className="mt-4"
                 width="36"
                 height="35"
                 viewBox="0 0 36 35"
@@ -28,10 +28,10 @@ export default function AboutUsComponent() {
                   fill="#FE0039"
                 />
               </svg>
-              <p class="mt-2">GET TO KNOW</p>
-              <h1 class="fw-bold">Providing the Best Film Services</h1>
-              {/* <h4 class="fw-bold mt-3">6 Years of Innovation</h4> */}
-              <p class="m-3 ms-0">
+              <p className="mt-2">GET TO KNOW</p>
+              <h1 className="fw-bold">Providing the Best Film Services</h1>
+              {/* <h4 className="fw-bold mt-3">6 Years of Innovation</h4> */}
+              <p className="m-3 ms-0">
                 At <span className="fw-bolder fst-italic">Hourly</span><span className="text-danger fw-medium fst-italic">Dekho</span>.com, we are engineers who discovered that renting
                 OTT platforms is the simplest solution for enjoying movies and
                 TV shows. Our service offers a convenient, affordable way to
@@ -39,7 +39,7 @@ export default function AboutUsComponent() {
                 subscriptions.
               </p>
 
-              <p class="m-3 ms-0">
+              <p className="m-3 ms-0">
                 We bring together top OTT providers in one place, allowing you
                 to watch what you want, when you want, with ultimate
                 flexibility. Say goodbye to long-term commitments and hello to
@@ -58,7 +58,7 @@ export default function AboutUsComponent() {
                   fill="#FE0039"
                 />
               </svg>
-              <button class="btn d-block mt-5" id={styles.btnColor}>
+              <button className="btn d-block mt-5" id={styles.btnColor}>
                 DISCOVER MORE
               </button>
             </div>
